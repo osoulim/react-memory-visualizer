@@ -34,24 +34,67 @@ class Ram extends Component {
         let tmp = this.state.data, memsize = this.state.memsize;
         if(memsize <= 0)
             return;
-        for(let i = 0; i < tmp.length; i++){
+        for(var i = 0; i < tmp.length; i++){
             if(tmp[i].type === 0 && tmp[i].memory >= memsize){
                 tmp[i].memory -= memsize;
                 tmp.splice(i, 0, {type: this.state.processNum, memory: memsize});
                 break;
             }
         }
+        this.setState({data: tmp, processNum: this.state.processNum+1, lastFit: i});
+        console.log(this.state.data);
+    }
+
+    addBestFit(){
+        let tmp = this.state.data, memsize = this.state.memsize;
+        if(memsize <= 0)
+            return;
+        let putIndex = -1, putSize = Infinity;
+        for(let i = 0; i < tmp.length; i++){
+            if(tmp[i].type === 0 && tmp[i].memory >= memsize && tmp[i].memory < putSize){
+                putIndex = i;
+                putSize = tmp[i].memory;
+            }
+        }
+        if(putIndex === -1)
+            return;
+        tmp[putIndex].memory -= memsize;
+        tmp.splice(putIndex, 0, {type: this.state.processNum, memory: memsize});
+        this.setState({data: tmp, processNum: this.state.processNum+1, lastFit: putIndex});
+        console.log(this.state.data);
+    }
+    addWorseFit(){
+    let tmp = this.state.data, memsize = this.state.memsize;
+        if(memsize <= 0)
+            return;
+        let putIndex = -1, putSize = 0;
+        for(let i = 0; i < tmp.length; i++){
+            if(tmp[i].type === 0 && tmp[i].memory >= memsize && tmp[i].memory > putSize){
+                putIndex = i;
+                putSize = tmp[i].memory;
+            }
+        }
+        if(putIndex === -1)
+            return;
+        tmp[putIndex].memory -= memsize;
+        tmp.splice(putIndex, 0, {type: this.state.processNum, memory: memsize, lastFit:putIndex});
         this.setState({data: tmp, processNum: this.state.processNum+1});
         console.log(this.state.data);
     }
-    addBestFit(){
 
-    }
-    addWorseFit(){
-
-    }
     addNextFit(){
-
+        let tmp = this.state.data, memsize = this.state.memsize;
+        if(memsize <= 0)
+            return;
+        for(var i = this.state.lastFit + 1; i !== this.state.lastFit; i = (i + 1) % tmp.length){
+            if(tmp[i].type === 0 && tmp[i].memory >= memsize){
+                tmp[i].memory -= memsize;
+                tmp.splice(i, 0, {type: this.state.processNum, memory: memsize});
+                break;
+            }
+        }
+        this.setState({data: tmp, processNum: this.state.processNum+1, lastFit: i});
+        console.log(this.state.data);
     }
     renderControlPanel(){
         return(
