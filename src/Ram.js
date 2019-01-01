@@ -18,7 +18,7 @@ class Ram extends Component {
         }
         this.addFirstFit = this.addFirstFit.bind(this);
         this.addBestFit = this.addBestFit.bind(this);
-        this.addWorseFit = this.addWorseFit.bind(this);
+        this.addWorstFit = this.addWorstFit.bind(this);
         this.addNextFit = this.addNextFit.bind(this);
         this.finishProcess = this.finishProcess.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -70,7 +70,7 @@ class Ram extends Component {
         this.setState({data: tmp, processNum: this.state.processNum+1, lastFit: putIndex});
         this.cleanRam();
     }
-    addWorseFit(){
+    addWorstFit(){
     let tmp = this.state.data, memsize = this.state.memsize;
         if(memsize <= 0)
             return;
@@ -144,7 +144,7 @@ class Ram extends Component {
                     Process Size: <input type="number" onChange={this.handleChange} value={this.state.memsize} /> <br/>
                     <button onClick={this.addFirstFit}>First Fit</button>
                     <button onClick={this.addBestFit}>Best Fit</button>
-                    <button onClick={this.addWorseFit}>Worse Fit</button>
+                    <button onClick={this.addWorstFit}>Worst Fit</button>
                     <button onClick={this.addNextFit}>Next Fit</button>
                 </div>
                 <div>
@@ -163,7 +163,7 @@ class Ram extends Component {
     }
     render() {
         return (
-        <div style={{width: "100%", height: "120px"}} className="App">
+        <div style={{width: "100%", borderColor:"black", borderStyle:"solid", borderWidth: "5px", padding:"20px", margin:"20px"}} >
             {this.renderControlPanel()}
             <XYPlot
                 stackBy="x"
@@ -189,7 +189,7 @@ class Ram extends Component {
                 }   
             </XYPlot>
             <div>
-                {this.state.label.memory} for {this.state.label.type ? "process " + this.state.label.type : "free space"}
+                {this.state.label.type ? "process " + this.state.label.type : "free space"} : {this.state.label.memory}
             </div>
         </div>
         );
