@@ -5,7 +5,7 @@
   "dependencies": {
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1",
+    "react-scripts": "2.1.8",
     "react-vis": "^1.11.5"
   },
   "scripts": {
